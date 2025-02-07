@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #f4f4f4; }
+        th { justify-content: space-between; }
+    </style>
+</head>
+<body>
+
+    <h2>HR Dashboard</h2>
+
+    <form method="GET">
+        <label>{{ form.year.label }}</label> {{ form.year }} </t></t>
+
+
+        <label>{{ form.department.label }}</label>
+        <select name="department">
+            <option value="">Select Department</option>
+            {% for dept in form.department.field.choices %}
+                <option value="{{ dept.0 }}">{{ dept.1 }}</option>
+            {% endfor %}
+        </select>
+        
+
+        <label>{{ form.designation.label }}</label>
+        <select name="designation">
+            <option value="">Select Designation</option>
+            {% for desig in form.designation.field.choices %}
+                <option value="{{ desig.0 }}">{{ desig.1 }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <label>{{ form.primary_reviewer.label }}</label>
+        <select name="primary_reviewer">
+            <option value="primary_reviewer"></option>
+            {% for pr in form.primary_reviewer.field.choices %}
+                <option value="{{ pr.0 }}">{{ pr.1 }}</option>
+            {% endfor %}
+        </select>
+
+        <label>{{ form.secondary_reviewer.label }}</label>
+        <select name="secondary_reviewer">
+            <option value="secondary_reviewer"></option>
+            {% for secr in form.primary_reviewer.field.choices %}
+                <option value="{{ secr.0 }}">{{ secr.1 }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+
+        <button type="submit" >Generate KRA</button>
+    </form>
+
+    <h3>KRA Report</h3>
+    <table>
+        <thead>
+            <tr><th>Year</th>
+                <th>Employee Name</th>
+                <th>user_id</th>
+                <th>Primary Reviewer</th>
+                <th>PR Points</th>
+                <th>Secondary Reviewer</th>
+                <th>SR Points</th>
+                <th>Employee Own Rating</th>
+                <th>POA</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in kra_reports %}
+                <tr>
+                    <td>{{ report.user.empcode }}</td>
+                    <td>{{ report.reviewer.name }}</td>
+                    <td>{{ report.user.empcode }}</td>
+                    <td>{{ report.user.empcode }}</td>
+                    <td>{{ report.user.empcode}}</td>
+                    <td>{{ report.user.empcode}}</td>
+                    <td>{{ report.user.empcode}}</td>
+                    <td>{{ report.user.empcode}}</td>
+                    <td>{{ report.user.empcode}}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="9">No reports available</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
