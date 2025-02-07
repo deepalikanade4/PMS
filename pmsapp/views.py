@@ -6,8 +6,12 @@ from django.contrib.auth.models import User
 from .forms import Userloginform,UserRegistrationform , HRDashboardForm
 from .models import User,Login,Kra
 from django.contrib import messages
+from django.middleware.csrf import get_token
+
 
 def signuppage(request):
+    csrf_token = get_token(request)
+    print("CSRF Token:", csrf_token)
     if request.method=='POST':
         form=UserRegistrationform(request.POST)
         
@@ -32,6 +36,7 @@ def loginpage(request):
                 login(request,user)
                 print(form.cleaned_data['role'])
                 if form.cleaned_data['role']=="HR":
+                    form=HRDashboardForm()
                     return render(request,'pmsapp/HR_dashboard.html',{'form':form})
                 if form.cleaned_data['role']=="Reviewer":
                     return render(request,'pmsapp/dashbord.html',{'form':form})
