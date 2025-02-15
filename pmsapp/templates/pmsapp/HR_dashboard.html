@@ -16,7 +16,9 @@
 
     <h2>HR Dashboard</h2>
 
-    <form method="GET">
+    <form action="{% url 'hr_dashboard' %}" method="POST">
+        {%csrf_token %}
+    
         <label>{{ form.year.label }}</label> {{ form.year }} </t></t>
 
 
@@ -54,10 +56,13 @@
             {% endfor %}
         </select>
         <br><br>
-
-
-        <button type="submit" >Generate KRA</button>
+    
+        <button type="submit">Generate KRA</button>
+        
     </form>
+   
+         
+
 
     <h3>KRA Report</h3>
     <table>

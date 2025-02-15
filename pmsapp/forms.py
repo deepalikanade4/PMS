@@ -2,7 +2,7 @@
 from django.contrib.auth.forms import UserCreationForm,UsernameField,AuthenticationForm
 from django import forms
 from django.utils.translation import gettext,gettext_lazy as _
-from .models import Login
+from .models import Login,Kra
 
 class UserRegistrationform(UserCreationForm):
     class Meta:
@@ -37,43 +37,6 @@ class Userloginform(AuthenticationForm):
                    ('Employee','Employee')]
     role=forms.ChoiceField(choices=role_choiches,label='Role',required=False)
 
-# from django import forms
-# from .models import KRA, User
-
-# class KRAResponseForm(forms.Form):
-#     def __init__(self, *args, **kwargs):
-#         kra_instances = kwargs.pop('kra', None)  # Get KRA instances
-#         super(KRAResponseForm, self).__init__(*args, **kwargs)
-
-#         if kra_instances:
-#             for kra in kra_instances:
-#                 field_name = f"kra_{kra.id}"  # Dynamic field name
-                
-#                 if kra.ans_type == 'rating':
-#                     self.fields[field_name] = forms.ChoiceField(
-#                         choices=[(str(i), str(i)) for i in range(1, 6)],  # Rating 1-5
-#                         widget=forms.RadioSelect,
-#                         label=kra.kra_questions
-#                     )
-                
-#                 # elif kra.ans_type == 'radio':
-#                 #     self.fields[field_name] = forms.ChoiceField(
-#                 #         choices=[('option1', 'Option 1'), ('option2', 'Option 2'), ('option3', 'Option 3')],  
-#                 #         widget=forms.RadioSelect,
-#                 #         label=kra.kra_questions
-#                 #     )
-
-
-
-
-
-#                 elif kra.ans_type == 'yesno':
-#                     self.fields[field_name] = forms.ChoiceField(
-#                         choices=[('yes', 'Yes'), ('no', 'No')],
-#                         widget=forms.RadioSelect,
-#                         label=kra.kra_questions
-#                     )
-
 class HRDashboardForm(forms.Form):
     department = forms.ModelChoiceField(
         queryset=Login.objects.values_list('department', flat=True).distinct(),
@@ -97,3 +60,44 @@ class HRDashboardForm(forms.Form):
     
 
     year = forms.DateField(required=False, label="Year ")
+
+# class GenerateKraForm(forms.Form):
+#     Add_Question=forms.Textarea()
+#     answer_choice=[('Textarea'),'YES/NO_Radio','1-5_RatingRadio']
+    
+
+
+class KRAResponseForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        kra_instances = kwargs.pop('Kra', None)  # Get KRA instances
+        super(KRAResponseForm, self).__init__(*args, **kwargs)
+
+        if kra_instances:
+            for kra in kra_instances:
+                field_name = f"kra_{kra.kra_id}"  # Dynamic field name
+                
+                if kra.ans_type == 'rating':
+                    self.fields[field_name] = forms.ChoiceField(
+                        choices=[(str(i), str(i)) for i in range(1, 6)],  # Rating 1-5
+                        widget=forms.RadioSelect,
+                        label=kra.kra_questions
+                    )
+                
+                # elif kra.ans_type == 'radio':
+                #     self.fields[field_name] = forms.ChoiceField(
+                #         choices=[('option1', 'Option 1'), ('option2', 'Option 2'), ('option3', 'Option 3')],  
+                #         widget=forms.RadioSelect,
+                #         label=kra.kra_questions
+                #     )
+
+
+
+
+
+                elif kra.answer_type == 'yesno':
+                    self.fields[field_name] = forms.ChoiceField(
+                        choices=[('yes', 'Yes'), ('no', 'No')],
+                        widget=forms.RadioSelect,
+                        label=kra.kra_questions
+                    )
+

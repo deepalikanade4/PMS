@@ -29,11 +29,18 @@ class User(models.Model):
 
     def __str__(self):
         return f'User {self.user_id}'
+
+class KraId(models.Model):
+    id=models.AutoField(primary_key=True)
+    year=models.IntegerField()
+    department=models.CharField(max_length=255)
+    designation=models.CharField(max_length=255)
     
+
 class Kra(models.Model):
     id=models.AutoField(primary_key=True)
-    kra_id=models.CharField(max_length=100)
-    kra_questions=models.TextField()
+    kra_id=models.ForeignKey(KraId,max_length=100,on_delete=models.CASCADE)
+    kra_questions=models.TextField(null=True)
     answer_type=models.CharField(max_length=50)
     activate=models.BooleanField(default=True)
     added_on=models.DateTimeField(auto_now_add=True)
@@ -41,7 +48,9 @@ class Kra(models.Model):
 
     
     def __str__(self):
-        return self.kra_id
+        return str(self.kra_id)
+    
+
 
 class PlanOfAction(models.Model):
     id=models.AutoField(primary_key=True)

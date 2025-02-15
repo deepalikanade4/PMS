@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User,Login,Kra,PlanOfAction
+from .models import User,Login,Kra,PlanOfAction,KraId
 
 # Register your models here.
 @admin.register(Login)
@@ -17,3 +17,7 @@ class KraAdmin(admin.ModelAdmin):
 @admin.register(PlanOfAction)
 class POAAdmin(admin.ModelAdmin):
     list_display=['id','user_id','poa','poa_points','start_date','end_date','year','created_on','created_by']
+
+@admin.register(KraId)
+class kraIDAdmin(admin.ModelAdmin):
+    list_display=['id','year','department','designation']
